@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Premium Tote Bag Offer</title>
+<style>
+  /* Base Variables for the Theme */
+  :root {
+    --glass-bg: rgba(255, 255, 255, 0.45);
+    --glass-border: rgba(255, 255, 255, 0.6);
+    --text-dark: #333;
+    --accent-pink: #e88fa6;
+    --btn-gradient: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+  }
+
+  * {
+    box-sizing: border-box; /* Ensures padding doesn't affect width */
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: radial-gradient(circle at top left, #fff, transparent 60%),
+                radial-gradient(circle at bottom right, #ffe6eb, transparent 60%),
+                #fdf2f5;
+    /* Prevents background blobs from creating horizontal scrollbars on mobile */
+    overflow: hidden; 
+  }
+
+  /* Decorative floating blobs */
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    z-index: -1;
+  }
+  
+  .blob-1 {
+    width: 300px; height: 300px;
+    background: #ffc2d1;
+    top: 10%; left: 10%;
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .blob-2 {
+    width: 400px; height: 400px;
+    background: #ffffff;
+    bottom: -5%; right: -10%;
+    animation: float 8s ease-in-out infinite reverse;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(0px) scale(1); }
+    50% { transform: translateY(20px) scale(1.05); }
+    100% { transform: translateY(0px) scale(1); }
+  }
+
+  /* The Main Glassmorphism Card */
+  .product-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 30px;
+    /* RESPONSIVE WIDTH SETUP */
+    width: 90%; 
+    max-width: 350px; 
+    
+    box-shadow: 0 8px 32px 0 rgba(232, 143, 166, 0.2), 
+                inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+    text-align: center;
+    transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.5s ease;
+  }
+
+  /* Note: 3D hover effects work best on desktop, but adding them doesn't hurt mobile */
+  @media (hover: hover) {
+    .product-card:hover {
+      transform: perspective(1000px) translateY(-10px) rotateX(2deg) rotateY(-2deg);
+      box-shadow: 0 15px 45px 0 rgba(232, 143, 166, 0.3), 
+                  inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+    }
+  }
+
+  /* Image Container */
+  .product-img-container {
+    width: 100%;
+    height: 260px;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+  }
+
+  .product-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+
+  @media (hover: hover) {
+    .product-card:hover .product-img {
+      transform: scale(1.08); 
+    }
+  }
+
+  h2 {
+    margin: 0 0 10px;
+    color: var(--text-dark);
+    font-weight: 600;
+    font-size: 1.4rem;
+  }
+
+  /* Pricing */
+  .price-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .old-price {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 1.1rem;
+  }
+
+  .new-price {
+    color: var(--accent-pink);
+    font-size: 1.8rem;
+    font-weight: 800;
+    text-shadow: 0 2px 10px rgba(232, 143, 166, 0.3);
+  }
+
+  /* Countdown Timer */
+  .timer-box {
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 25px;
+    border: 1px solid rgba(255,255,255,0.8);
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);
+  }
+
+  .timer-title {
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+  }
+
+  .countdown {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .time-unit {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    padding: 8px 5px;
+    border-radius: 8px;
+    flex: 1;
+    box-shadow: 0 4px 10px rgba(232, 143, 166, 0.15);
+  }
+
+  .time-val {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--accent-pink);
+  }
+
+  .time-label {
+    font-size: 0.65rem;
+    color: #888;
+    text-transform: uppercase;
+  }
+
+  /* 3D Glossy WhatsApp Button */
+  .cart-btn {
+    width: 100%;
+    padding: 14px 20px;
+    background: var(--btn-gradient);
+    border: none;
+    border-radius: 12px;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 6px 15px rgba(255, 154, 158, 0.4),
+                inset 0 2px 0 rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .cart-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(255, 154, 158, 0.5),
+                inset 0 2px 0 rgba(255, 255, 255, 0.7);
+  }
+
+  .cart-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 8px rgba(255, 154, 158, 0.4),
+                inset 0 2px 0 rgba(255, 255, 255, 0.2);
+  }
+
+  .cart-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+    transform: skewX(-25deg);
+    transition: 0.5s;
+  }
+
+  .cart-btn:hover::after {
+    animation: shine 1.5s ease-out infinite;
+  }
+
+  @keyframes shine {
+    0% { left: -100%; }
+    100% { left: 200%; }
+  }
+
+  /* === MOBILE RESPONSIVE MEDIA QUERIES === */
+  @media (max-width: 400px) {
+    .product-card {
+      padding: 20px; /* Less padding on small screens */
+    }
+    
+    .product-img-container {
+      height: 220px; /* Slightly shorter image */
+    }
+    
+    h2 {
+      font-size: 1.25rem;
+    }
+    
+    .new-price {
+      font-size: 1.6rem;
+    }
+    
+    .time-unit {
+      padding: 6px 2px;
+    }
+    
+    .time-val {
+      font-size: 1.05rem;
+    }
+    
+    .cart-btn {
+      font-size: 1rem;
+      padding: 12px 15px;
+    }
+  }
+  
+  /* Handle very short screens (landscape mobile) */
+  @media (max-height: 650px) {
+    body {
+      align-items: flex-start;
+      padding: 20px 0;
+      overflow-y: auto; /* Allow scrolling if screen is too short */
+    }
+    .blob {
+      display: none; /* Hide blobs to improve scrolling performance */
+    }
+  }
+</style>
+</head>
+<body>
+
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+
+  <div class="product-card">
+    
+    <div class="product-img-container">
+      <img src="tote1.jpeg&auto=format&fit=crop" alt="Premium Canvas Tote Bag" class="product-img">
+    </div>
+    
+    <h2>Aesthetic Tote Bag</h2>
+    
+    <div class="price-container">
+      <span class="old-price">₹400</span>
+      <span class="new-price">₹249</span>
+    </div>
+
+    <div class="timer-box">
+      <div class="timer-title">Offer ends in</div>
+      <div class="countdown" id="countdown">
+        <div class="time-unit">
+          <span class="time-val" id="days">06</span>
+          <span class="time-label">Days</span>
+        </div>
+        <div class="time-unit">
+          <span class="time-val" id="hours">00</span>
+          <span class="time-label">Hrs</span>
+        </div>
+        <div class="time-unit">
+          <span class="time-val" id="mins">00</span>
+          <span class="time-label">Mins</span>
+        </div>
+        <div class="time-unit">
+          <span class="time-val" id="secs">00</span>
+          <span class="time-label">Secs</span>
+        </div>
+      </div>
+    </div>
+
+    <button class="cart-btn" onclick="window.open('https://wa.me/919392862839?text=Hi,%20I%20want%20to%20order%20the%20Aesthetic%20Tote%20Bag%20for%20%E2%82%B9249!', '_blank')">
+      Order via WhatsApp
+    </button>
+  </div>
+
+  <script>
+    // Initialize the countdown timer to 6 days from when the script loads
+    const countDownDate = new Date().getTime() + (6 * 24 * 60 * 60 * 1000);
+
+    const timerInterval = setInterval(function() {
+      const now = new Date().getTime();
+      const distance = countDownDate - now;
+
+      // Mathematical calculations for time
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      // DOM updates (padding with zeros so '9' becomes '09')
+      document.getElementById("days").innerHTML = days.toString().padStart(2, '0');
+      document.getElementById("hours").innerHTML = hours.toString().padStart(2, '0');
+      document.getElementById("mins").innerHTML = minutes.toString().padStart(2, '0');
+      document.getElementById("secs").innerHTML = seconds.toString().padStart(2, '0');
+
+      // What happens when the timer finishes
+      if (distance < 0) {
+        clearInterval(timerInterval);
+        document.getElementById("countdown").innerHTML = "<div class='time-val' style='width:100%; text-align:center;'>OFFER EXPIRED</div>";
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
